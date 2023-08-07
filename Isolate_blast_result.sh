@@ -24,3 +24,14 @@ paste Blast_result_SNPID_Acyt_OnlyMatched Blast_result_gene_name_Gene_ID_Acyt>Bl
 grep -f Blast_result_Gene_ID_Ahya_sort Blast_result_Gene_ID_Acyt_sort >Ahya_Acyt_common_GeneID
 grep -f Ahya_Acyt_common_GeneID Blast_result_gene_name_Gene_ID_SNPID_Acyt >Acyt_common_Gene_name_Gene_ID_SNP
 grep -f Ahya_Ahya_common_GeneID Blast_result_gene_name_Gene_ID_SNPID_Ahya >Ahya_common_Gene_name_Gene_ID_SNP
+
+##Isolate Fst values of the Blast-hit SNPs
+sed "s/$/,/g" Ahya_Acyt_common_SNP >Ahya_Acyt_common_search
+#isolate Scafold and Bp information from Fst file used in the Fasta file making script(making_fasta_for_blast.sh) such as Fst.txt
+grep -f Ahya_Acyt_common_search Fst_Ahya.txt |sed "s/,/\t/g"|awk '{print $2,$3}'|sed "s/ /_/g">Ahya_Scafold_BP_search
+#making file for searching Fst values
+sed "s/\t/_/g" sub_cyt_maf_hwe_geno005.weir.fst08 >sub_cyt_maf_hwe_geno005.weir.fst08_search
+#Isolating Fst values in the SNPs
+grep -f Ahya_Scafold_BP_search sub_cyt_maf_hwe_geno005.weir.fst08_search |uniq >sub_cyt_maf_hwe_geno005.weir.fst08_Ahya_common_Fst
+
+
