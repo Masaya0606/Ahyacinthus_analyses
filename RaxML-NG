@@ -1,0 +1,11 @@
+##built ML tree with RaxML-NG
+#!/bin/sh
+#$ -S /bin/bash
+#$ -cwd
+#$ -l s_vmem=10G
+#$ -l mem_req=10G
+#$ -l d_rt=480:00:00
+#$ -l s_rt=480:00:00
+
+module add singularity
+singularity exec /usr/local/biotools/r/raxml-ng\:1.0.2--h7447c1b_0 raxml-ng --msa hya_ed.var.phylip --model TVM+ASC_LEWIS --all --bs-trees 100 --threads 14 
