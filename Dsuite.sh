@@ -1,4 +1,4 @@
-##detect introgression via ABBA-BABA test with Dsuite
+##detect introgression via ABBA-BABA test with Dsuite.nwk file was created from the ML tree built by RaxML-NG, setting Isopora as an outgroup. 
 
 #!/bin/sh
 #$ -S /bin/bash
