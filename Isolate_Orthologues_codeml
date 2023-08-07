@@ -1,0 +1,25 @@
+#Isolate CDs and seach Orthologues with Orthoscope
+paste accession code such as XM*** in NCBI
+copy CDs sequences
+paste fasta file of the CDs in Orthoscope for Acropora(https://orthoscope.jp/orthoscope/Acropora.html)
+
+# download the isolated result and check the cluster of youseq
+grep -A *** "name of top OTU name of cluster" >SNP**.fasta
+
+#align sequences with mafft and check at websites. If the sequences are not well aligned and lack of the seqeuences, remove these OTU. If the sequences are well aligned the file should be transformed as Nexus format
+#check the aligned file with Mesquite
+#visalization of codon is convenient for checking the file
+#Transformed aligned file to phylip file and build a ML tree with RaxML or RaxML-ng
+raxml-ng --msa SNP**.phy --all --model GTR+G+I --bs-trees 100 --threads 8
+
+#remove the bootstrap vlaues from ML file
+sed "s/)100:/):/g" RAxML_bipartitions.SNP***.txt.phy_out|sed "s/)..:/):/g"|sed "s/).:/):/g" >SNP**.phy_out
+
+# run codeml with SNP**.phy as a nucleotide file and SNP**.phy_out as tree file. Run model8 and model8a via setting codeml.ctl file
+singularity exec /usr/local/biotools/p/paml\:4.9--h14c3975_4 codeml
+
+#check mlc files and compare lnL values
+ΔlnL=2(lnL-model8-lnL-model8a)
+#if ΔlnL>2.76, positive selection is supported.
+
+
